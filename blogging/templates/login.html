@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+    <style>
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            /* Your styling here */
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        button[type="submit"] {
+            /* Your styling here */
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="ml-5 mr-5 mb-5" style="background-color: #e6e6e6;">
+    <div class="container mt-1 mb-3">
+        <div >
+            <center><h1 class="my-4 text-dark">Login</h1></center> 
+            <div
+                style="width: 50%; background-color: rgba(8, 177, 78, 0.418); 
+                padding: 25px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-left: auto; margin-right: auto; border-radius: 10px;
+                ">
+                <form method="post" class="form-group">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <center> <button type="submit" class="btn btn-primary mt-3">Login</button></center>
+                </form>
+                <p class="text-center">Does not have an account? <a href="{% url 'register'  %}">Sing Up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

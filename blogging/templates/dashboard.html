@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .circle-img {
+            border-radius: 50%;
+            width: 170px;
+            /* Set width */
+            height: 170px;
+            /* Set height */
+
+        }
+
+        .label {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .vertical-line {
+            border-left: 2px solid black;
+            /* Adjust thickness and color as needed */
+            height: 100px;
+            /* Adjust height as needed */
+        }
+    </style>
+</head>
+
+<body style="background-color: black;">
+
+    <div class="row pl-3 ">
+        <div class="col-2" style="background-color: black;">
+            <div class="pt-3">
+                <center>
+                    <img src="../../{{profilePic.profile_picture}}" alt="Image"
+                        class="circle-img border border-primary mb-2" width="170" height="170">
+                </center>
+                <h1 class="text-center text-white">{{user.first_name}}</h1>
+                <h3 class="text-center text-white">{{user.last_name}}</h3>
+                <p class="text-center text-muted mt-2">{{user.email}}</p>
+                <p class="text-center text-muted">{{user.username}}</p>
+                {% if profilePic == None %}
+                <p class="text-center"><a href="{% url 'upload_profile_pic' user.id %}" class="text-center">Upload
+                        Profile Picture</a></p>
+                {% endif %}
+                <center><button class="btn btn-primary mt-2 text-center"
+                        onclick="window.location.href=`{% url 'creat_blog' user.id %}`">Create New Blog</button>
+                        
+                </center>
+                <br><br>
+                <center>
+                    <form action="{% url 'product_list' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="data_to_pass" value="True">
+                        <input type="hidden" name="id" value="{{ user.id }}">
+                        <button class="btn btn-primary mt-2 text-center" type="submit">All Blogs</button>
+                    </form>
+                    <br>
+                    <a href="{% url 'product_list' %}">Logout </a>
+                </center>
+            </div>
+        </div>
+        
+        <div class="col-xl pt-3 pl-3" style="background-color: #e6e6e6; min-height: 100vh">
+        
+            <h1 class="text-center mb-4 text-dark">My Blogs</h1>
+            <div class="row">
+                {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <a href="{% url 'product_detail' product.pk user.id %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.created_name }}" 
+                                class="card-img-top">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.short_description }}
+                                {% if product.is_see_more %}
+                                <a href="{% url 'product_detail' product.pk user.id %}">see more</a>
+                                {% endif %}
+                            </p>
+                            <p class="mr-5 mt-2">{{product.likes}} <i
+                                class="fa fa-thumbs-up"></i>&nbsp&nbsp&nbsp&nbsp&nbsp{{product.dislikes}} <i
+                                class="fa fa-thumbs-down"></i></p>
+                            <small class="card-text">Created at: {{ product.created_at }}</small> <br>
+                            <small class="card-text">Updated at: {{ product.updated_at }}</small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

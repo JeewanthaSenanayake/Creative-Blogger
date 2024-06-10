@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>{{ product.name }} - Blog Detail</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="ml-5 mr-5 mb-5" style="background-color: #e6e6e6;">
+	<!-- <form action="{% url 'dashboard' user.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="data_to_pass" value="True">
+        <input type="hidden" name="id" value="{{ user.id }}">
+        <button class="btn btn-primary mt-3  text-center" type="submit">Back</button>
+    </form> -->
+	<button onclick="window.location.href=`{% url 'dashboard' user.id %}`"
+		class="btn btn-primary mt-3  text-center">Back</button>
+
+	<h1 class="text-center mb-4">{{ product.name }} </h1>
+
+
+	<div>
+		<center> <img src="{{product.image.url}}" alt="{{ product.name }}" style="width: 550px; height: auto;">
+		</center>
+	</div>
+
+
+	<!-- <p class="mt-4 text-justify">{{ product.description }}</p> -->
+	<div class="mt-4 text-justify ml-5 mr-5" id = "discript_p"></div>
+	<input type="text" name="discript" id="id_discript" value="{{ product.description }}">
+	<script>
+		var discript = document.getElementById('id_discript').value;
+		document.getElementById('id_discript').style.display = 'none';
+		document.getElementById('discript_p').innerHTML = discript;
+	</script>
+
+	<div class="col">
+		<div class="row">
+			<a href="{% url 'edit_product' product.pk user.id %}">
+				<h5>Edit</h5>
+			</a>
+			<a class="ml-3" href="{% url 'delete_product' product.pk user.id%}">
+				<h5>Delete
+			</a></h5> <br>
+		</div>
+	</div>
+	<div class="mt-5">
+
+		<p class="mr-5 mt-2">{{product.likes}} <i
+			class="fa fa-thumbs-up"></i>&nbsp&nbsp&nbsp&nbsp&nbsp{{product.dislikes}} <i
+			class="fa fa-thumbs-down"></i></p>
+		<h3 class="mb-2">Comments</h3>
+		{% for comment in product.comments %}
+		<div class="card mt-2 " style="background-color: rgba(156, 156, 156, 0.192);">
+			<div class="card-body">
+				<h5 class="card-title">{{ comment.user_name }}</h5>
+				<p class="card-text">{{ comment.comment }}</p>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

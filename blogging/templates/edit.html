@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Edit</title>
+	<style>
+		input[type="text"],
+		input[type="file"] {
+			/* Your styling here */
+			border: 1px solid #ccc;
+			padding: 10px;
+			border-radius: 5px;
+			width: 100%;
+		}
+
+
+		button[type="submit"] {
+			/* Your styling here */
+			background-color: #007bff;
+			color: #fff;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+	</style>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body class="ml-5 mr-5 mb-5" style="background-color: #e6e6e6;">
+	<div class="container mt-1 mb-3">
+		<div>
+			<center>
+                <h1 class="mb-4 text-dark">Edit Blog Post</h1>
+            </center>
+		</div>
+		<div style="width: 75%; background-color: rgba(8, 177, 78, 0.418); 
+                padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-left: auto; margin-right: auto; border-radius: 10px;
+                ">
+		<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit">Save Changes</button>
+		</form>
+		</div>
+	</div>
+
+	<script>
+
+		document.getElementById('id_userId').style.display = 'none';
+		document.querySelector('label[for="id_userId"]').style.display = 'none';
+		var textarea = document.getElementById("id_description");
+		textarea.rows = 10;
+		textarea.cols = 105;
+	</script>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

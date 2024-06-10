@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }} - Blog Detail</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+
+<body class="ml-5 mr-5 mb-5" style="background-color: #e6e6e6;">
+    <form action="{% url 'product_list' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="data_to_pass" value="True">
+        <input type="hidden" name="id" value="{{ user.id }}">
+        <button class="btn btn-primary mt-3  text-center" type="submit">Back</button>
+    </form>
+
+    <h1 class="text-center mb-4 text-dark">{{ product.name }} </h1>
+
+
+    <div>
+        <center> <img src="{{product.image.url}}" alt="{{ product.name }}" style="width: 550px; height: auto;"> </center>
+    </div>
+
+    
+    <!-- <p class="mt-4 mb-5 text-justify ">{{ product.description }}</p> -->
+    <div class="mt-4 ml-5 mr-5 text-justify" id = "discript_p"></div>
+	<input type="text" name="discript" id="id_discript" value="{{ product.description }}">
+	<script>
+		var discript = document.getElementById('id_discript').value;
+		document.getElementById('id_discript').style.display = 'none';
+		document.getElementById('discript_p').innerHTML = discript;
+	</script>
+
+    <button class="btn btn-success mt-4 mr-1" id="like-btn">{{product.likes}} Likes <i class="fa fa-thumbs-up"></i></button>
+    <button class="btn btn-danger mt-4 mr-1" id="dislikes-btn">{{product.dislikes}} Dislikes <i class="fa fa-thumbs-down"></i> </button>
+    
+    <p id="msg" class="mt-1" style="color: brown;"></p>
+    <input type="hidden" name="uid" id="id_uid" value="{{ user.id }}">
+    <input type="hidden" name="product_id" id="id_product_id" value="{{product.pk}}">
+
+    <div class="row mt-3  mr-3">
+        <div class="col-5">
+            <div class="row">
+
+
+                <div class="container " style=" display: flex; align-items:flex-start;">
+                    <textarea id="myTextarea" rows="5" cols="50"></textarea>
+                    <button id="comments-btn" class="ml-2 btn btn-dark" >Comment</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl">
+            <h3 class="mb-2">Comments</h3>
+            {% for comment in product.comments %}
+            <div class="card mt-2 "  style="background-color: rgba(156, 156, 156, 0.192);">
+                <div class="card-body">
+                    <h5 class="card-title">{{ comment.user_name }}</h5>
+                    <p class="card-text">{{ comment.comment }}</p>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#comments-btn').click(function () {
+                var uid = document.getElementById('id_uid').value; // Get the data-id attribute value
+                var product_id = document.getElementById('id_product_id').value;
+                var comment = document.getElementById('myTextarea').value;
+                $.ajax({
+                    type: 'POST',
+                    url: '/blogging/comments/',
+                    data: {
+                        'id': uid,
+                        'product_id': product_id,
+                        'comment': comment,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF protection
+                    },
+                    success: function (response) {
+                        // alert(response.message);
+                        if (response.message == "success") {
+                            location.reload();
+                        } else {
+                            document.getElementById('msg').innerHTML = response.message;
+                            document.getElementById('myTextarea').classList.add('border', 'border-danger');
+                        }
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                        // alert(response.message);
+                    }
+                });
+            });
+            $('#like-btn').click(function () {
+                var uid = document.getElementById('id_uid').value; // Get the data-id attribute value
+                var product_id = document.getElementById('id_product_id').value;
+                $.ajax({
+                    type: 'POST',
+                    url: '/blogging/like_blog/',
+                    data: {
+                        'id': uid,
+                        'product_id': product_id,
+                        'like': "1",
+                        'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF protection
+                    },
+                    success: function (response) {
+                        // alert(response.message);
+                        if (response.message == "success") {
+                            location.reload();
+                        } else {
+                            document.getElementById('msg').innerHTML = response.message;
+                        }
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                        // alert(response.message);
+                    }
+                });
+            });
+            $('#dislikes-btn').click(function () {
+                var uid = document.getElementById('id_uid').value; // Get the data-id attribute value
+                var product_id = document.getElementById('id_product_id').value;
+                $.ajax({
+                    type: 'POST',
+                    url: '/blogging/like_blog/',
+                    data: {
+                        'id': uid,
+                        'product_id': product_id,
+                        'like': "0",
+                        'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF protection
+                    },
+                    success: function (response) {
+                        // alert(response.message);
+                        if (response.message == "success") {
+                            location.reload();
+                        } else {
+                            document.getElementById('msg').innerHTML = response.message;
+                        }
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                        // alert(response.message);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
