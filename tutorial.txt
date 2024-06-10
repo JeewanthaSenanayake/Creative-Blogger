@@ -3,6 +3,7 @@ https://www.geeksforgeeks.org/blogging-platform-using-django/
 https://realpython.com/build-a-blog-from-scratch-django/
 
 python manage.py startapp blogging
+python manage.py runserver
 
 passwor zaq123
 
