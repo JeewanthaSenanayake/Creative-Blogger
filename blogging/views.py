@@ -41,11 +41,12 @@ def like_blog(request):
                 return JsonResponse({'message': 'You already liked this post.'})
             else:
                 selected_product.likes += 1
-                if selected_product.dislikes>0:
-                    selected_product.dislikes -= 1
+                
                 selected_product.like_users.append(uid)
                 try:
                     selected_product.dislike_users.remove(uid)
+                    if selected_product.dislikes>0:
+                        selected_product.dislikes -= 1
                 except:
                     pass
                 selected_product.save()
@@ -62,11 +63,11 @@ def like_blog(request):
                 return JsonResponse({'message': 'You already disliked this post.'})
             else:
                 selected_product.dislikes += 1
-                if selected_product.likes>0:
-                    selected_product.likes -= 1
                 selected_product.dislike_users.append(uid)
                 try:
                     selected_product.like_users.remove(uid)
+                    if selected_product.likes>0:
+                        selected_product.likes -= 1
                 except:
                     pass
                 selected_product.save()

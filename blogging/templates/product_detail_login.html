@@ -26,9 +26,10 @@
     </div>
 
     
-    <!-- <p class="mt-4 mb-5 text-justify ">{{ product.description }}</p> -->
     <div class="mt-4 ml-5 mr-5 text-justify" id = "discript_p"></div>
+
 	<input type="text" name="discript" id="id_discript" value="{{ product.description }}">
+    
 	<script>
 		var discript = document.getElementById('id_discript').value;
 		document.getElementById('id_discript').style.display = 'none';
@@ -39,6 +40,7 @@
     <button class="btn btn-danger mt-4 mr-1" id="dislikes-btn">{{product.dislikes}} Dislikes <i class="fa fa-thumbs-down"></i> </button>
     
     <p id="msg" class="mt-1" style="color: brown;"></p>
+
     <input type="hidden" name="uid" id="id_uid" value="{{ user.id }}">
     <input type="hidden" name="product_id" id="id_product_id" value="{{product.pk}}">
 
@@ -53,6 +55,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="col-xl">
             <h3 class="mb-2">Comments</h3>
             {% for comment in product.comments %}
