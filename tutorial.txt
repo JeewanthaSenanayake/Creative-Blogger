@@ -5,4 +5,8 @@ https://realpython.com/build-a-blog-from-scratch-django/
 python manage.py startapp blogging
 python manage.py runserver
 
-passwor zaq123
+python manage.py createsuperuser
+
+admin user - lakshika
+admin pass - passwor zaq123
+
